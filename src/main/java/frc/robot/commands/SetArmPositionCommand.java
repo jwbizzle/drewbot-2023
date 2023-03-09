@@ -29,6 +29,13 @@ public class SetArmPositionCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(m_inputArmUp){
+      m_arm.setSpeed(ArmConstants.kArmUpSpeed);
+    }
+    else{
+      m_arm.setSpeed(ArmConstants.kArmDownSpeed);
+    }
+    /*
     if(m_arm.getPosition()){
       if(Timer.getFPGATimestamp() - m_arm.getLastBurtTime() < ArmConstants.kArmTimeUp){
         m_arm.setSpeed(ArmConstants.kArmUpTravel);
@@ -63,6 +70,7 @@ public class SetArmPositionCommand extends CommandBase {
     // System.out.print(m_arm.getLastBurtTime());
     // System.out.print(" ");
     // System.out.println(m_arm.getPosition());
+    */
   }
 
   // Called once the command ends or is interrupted.

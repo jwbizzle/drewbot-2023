@@ -19,6 +19,8 @@ import frc.robot.commands.SetArmPositionCommand;
 import frc.robot.commands.AutoTimeCommandGroup;
 import frc.robot.commands.GrandTheftDriveCommand;
 import frc.robot.commands.HalveDriveSpeedCommand;
+import frc.robot.commands.IntakeHoldObjectCommand;
+import frc.robot.commands.IntakePickUpDropCommand;
 import frc.robot.commands.SetIntakeSpeedCommand;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -34,8 +36,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  //private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
-  //private final ArmSubsystem m_robotArm = new ArmSubsystem();
+  private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
+  private final ArmSubsystem m_robotArm = new ArmSubsystem();
 
   // The autonomous routines
 
@@ -51,7 +53,7 @@ public class RobotContainer {
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
   // The opreators's controller
-  //XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
+  XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -63,7 +65,7 @@ public class RobotContainer {
     // new ArcadeDriveCommand(m_robotDrive, m_driverController::getLeftY, m_driverController::getRightX)
     m_robotDrive.setDefaultCommand(
      new GrandTheftDriveCommand(m_robotDrive, m_driverController::getRightTriggerAxis, m_driverController::getLeftTriggerAxis, m_driverController::getLeftX)
-     );
+    );
 
     // Add commands to the autonomous command chooser
     m_chooser.setDefaultOption("Auto Shoot and Taxi", m_simpleAuto);
@@ -84,17 +86,18 @@ public class RobotContainer {
         .whenHeld(new HalveDriveSpeedCommand(m_robotDrive));
 
     // Control the intake motor speed while the operator is holder the triggers
-    //Trigger rightTriggerButton = new Trigger(() -> m_operatorController.getRightTriggerAxis() > OIConstants.kDeadbandThreshold);
-    //Trigger leftTriggerButton = new Trigger(() -> m_operatorController.getLeftTriggerAxis() > OIConstants.kDeadbandThreshold);
+    Trigger cubeInConeOutButtonTrigger = new Trigger(() -> m_operatorController.getRightTriggerAxis() > OIConstants.kDeadbandThreshold);
+    Trigger coneInCubeOutButtonTrigger = new Trigger(() -> m_operatorController.getLeftTriggerAxis() > OIConstants.kDeadbandThreshold);
 
-    //rightTriggerButton.whileActiveOnce(new SetIntakeSpeedCommand(m_robotIntake, IntakeConstants.kIntakeMotorReverseSpeed));
-    //leftTriggerButton.whileActiveOnce(new SetIntakeSpeedCommand(m_robotIntake, IntakeConstants.kIntakeMotorForwardSpeed));
+    cubeInConeOutButtonTrigger.whileActiveOnce(new IntakePickUpDropCommand(m_robotIntake, IntakeConstants.kIntakeObjectCubeInConeOut));
+    coneInCubeOutButtonTrigger.whileActiveOnce(new IntakePickUpDropCommand(m_robotIntake, IntakeConstants.kIntakeObjectCubeInConeOut));
 
-    //rightTriggerButton.or(leftTriggerButton).whenInactive(new SetIntakeSpeedCommand(m_robotIntake, IntakeConstants.kIntakeMotorStopSpeed));
+    cubeInConeOutButtonTrigger.or(coneInCubeOutButtonTrigger).whenInactive(new IntakeHoldObjectCommand(m_robotIntake));
 
     //Arm Buttons
-    //new JoystickButton(m_operatorController, Button.kRightBumper.value).whenPressed(new SetArmPositionCommand(m_robotArm, true));
-    //new JoystickButton(m_operatorController, Button.kLeftBumper.value).whenPressed(new SetArmPositionCommand(m_robotArm, false));
+    new JoystickButton(m_operatorController, Button.kRightBumper.value).whenPressed(new SetArmPositionCommand(m_robotArm, true));
+    new JoystickButton(m_operatorController, Button.kLeftBumper.value).whenPressed(new SetArmPositionCommand(m_robotArm, false));
+
   }
 
   /**

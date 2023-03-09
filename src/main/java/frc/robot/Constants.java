@@ -32,6 +32,17 @@ public final class Constants {
     public static final int kIntakeMotorForwardSpeed = 1; 
     public static final int kIntakeMotorReverseSpeed = -1;
     public static final int kIntakeMotorStopSpeed = 0;
+
+    // 2023
+    public static final int kIntakeOutputPower = 0;
+    public static final int kIntakeCurrentLimitA = 0;
+
+    public static final int kIntakeHoldPower = 0;
+    public static final int kIntakeHoldCurrentLimitA = 0;
+
+    public static final int kIntakeObjectNothing = 0; // numbers for representing game objects held
+    public static final int kIntakeObjectCubeInConeOut = 1;
+    public static final int kIntakeObjectConeInCubeOut = 2;
   }
 
   public static final class ArmConstants {
@@ -40,11 +51,15 @@ public final class Constants {
     public static final double kArmHoldUp = 0.08;
     public static final double kArmHoldDown = 0.08;
     public static final double kArmUpTravel = 0.35;  //Original was .5
-    public static final double kArmDownTravel = 0.3; 
+    public static final double kArmDownTravel = 0.3;
 
-    
     public static final double kArmTimeUp = 0.6; //Original was .5
     public static final double kArmTimeDown = 0.35;
+
+    // 2023 
+    public static final double kArmUpSpeed = 0.1; // untested
+    public static final double kArmDownSpeed = 0.1; // untested
+
   }
 
   public static final class HalfDriveConstants {

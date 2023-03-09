@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IntakeSubsystem extends SubsystemBase {
 
   CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorId, MotorType.kBrushed);
+  public int m_spinDirection = IntakeConstants.kIntakeObjectNothing;
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {}
@@ -25,6 +26,17 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     m_intakeMotor.set(speed);
+  }
+  public void setSpeedAndLimit(double speed, int amps) {
+    // Display values for debugging.
+    if (DebugConstants.kDebugArmSubsystem){
+      System.out.println("IntakeSubsystem.setSpeedAndLimit - Setting motor speed: " + speed + ".");
+      System.out.println("IntakeSubsystem.setSpeedAndLimit - Setting motor limit (amps): " + amps + ".");
+    }
+
+    m_intakeMotor.set(speed);
+    m_intakeMotor.setSmartCurrentLimit(amps);
+
   }
 
   @Override
