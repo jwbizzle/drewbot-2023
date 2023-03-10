@@ -14,8 +14,8 @@ package frc.robot;
  */
 public final class Constants {
   public static final class DebugConstants {
-    public static final boolean kDebugArmSubsystem = false;
-    public static final boolean kDebugIntakeSubsystem = false;
+    public static final boolean kDebugArmSubsystem = true;
+    public static final boolean kDebugIntakeSubsystem = true;
     public static final boolean kDebugDriveSubsystem = true;
     public static final double kDebugDriveSubsystemTreshold = 0.2;
   }
@@ -28,17 +28,17 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final int kIntakeMotorId = 5;
+    public static final int kIntakeMotorId = 6;
     public static final int kIntakeMotorForwardSpeed = 1; 
-    public static final int kIntakeMotorReverseSpeed = -1;
+    public static final int kIntakeMotorReverseSpeed = 1;
     public static final int kIntakeMotorStopSpeed = 0;
 
     // 2023
-    public static final int kIntakeOutputPower = 0;
-    public static final int kIntakeCurrentLimitA = 0;
+    public static final double kIntakeOutputPower = 0.3;
+    public static final int kIntakeCurrentLimitA = 25;
 
-    public static final int kIntakeHoldPower = 0;
-    public static final int kIntakeHoldCurrentLimitA = 0;
+    public static final double kIntakeHoldPower = 0.3;
+    public static final int kIntakeHoldCurrentLimitA = 25;
 
     public static final int kIntakeObjectNothing = 0; // numbers for representing game objects held
     public static final int kIntakeObjectCubeInConeOut = 1;
@@ -46,7 +46,7 @@ public final class Constants {
   }
 
   public static final class ArmConstants {
-    public static final int kArmMotorId = 6; 
+    public static final int kArmMotorId = 5; 
 
     public static final double kArmHoldUp = 0.08;
     public static final double kArmHoldDown = 0.08;
@@ -57,13 +57,15 @@ public final class Constants {
     public static final double kArmTimeDown = 0.35;
 
     // 2023 
-    public static final double kArmUpSpeed = 0.1; // untested
-    public static final double kArmDownSpeed = 0.1; // untested
+    public static final double kArmUpSpeed = 0.3; // untested
+    public static final double kArmDownSpeed = 0.3; // untested
+
+    public static final double kArmStopSpeed = 0.0;
 
   }
 
   public static final class HalfDriveConstants {
-    public static final double kHalfDriveScale = 0.5;
+    public static final double kHalfDriveScale = 0.25; // quarter speed for now
   }
 
   public static final class AutoConstants {
