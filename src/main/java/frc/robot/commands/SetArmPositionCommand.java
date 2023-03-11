@@ -12,11 +12,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class SetArmPositionCommand extends CommandBase {
   private final ArmSubsystem m_arm;
   private boolean m_inputArmUp;
+  private boolean m_stop;
 
   /** Creates a new SetReverseIntakeSpeed. */
   public SetArmPositionCommand(ArmSubsystem subsystem, boolean inputArmUp) {
     m_arm = subsystem;
     m_inputArmUp = inputArmUp;
+    //m_stop = stop;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_arm);
@@ -29,6 +31,18 @@ public class SetArmPositionCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    /*
+    if (m_stop){
+      m_arm.setSpeed(ArmConstants.kArmStopSpeed);
+      System.out.println("arm_stoped");
+    }*/
+    if (m_inputArmUp){
+      System.out.println("arm up");
+    }
+    else{
+      System.out.println("arm down");
+    }
+
     if(m_inputArmUp){
       m_arm.setSpeed(ArmConstants.kArmUpSpeed);
     }

@@ -83,20 +83,21 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // While the driver is holding the shoulder button, drive at half speed
     new JoystickButton(m_driverController, Button.kRightBumper.value)
-        .whenHeld(new HalveDriveSpeedCommand(m_robotDrive));
+        .whileTrue(new HalveDriveSpeedCommand(m_robotDrive));
 
     // Control the intake motor speed while the operator is holder the triggers
     Trigger cubeInConeOutButtonTrigger = new Trigger(() -> m_operatorController.getRightTriggerAxis() > OIConstants.kDeadbandThreshold);
     Trigger coneInCubeOutButtonTrigger = new Trigger(() -> m_operatorController.getLeftTriggerAxis() > OIConstants.kDeadbandThreshold);
 
-    cubeInConeOutButtonTrigger.whileActiveOnce(new IntakePickUpDropCommand(m_robotIntake, IntakeConstants.kIntakeObjectCubeInConeOut));
-    coneInCubeOutButtonTrigger.whileActiveOnce(new IntakePickUpDropCommand(m_robotIntake, IntakeConstants.kIntakeObjectCubeInConeOut));
+    System.out.println("configureButtonBindings");
+    cubeInConeOutButtonTrigger.whileTrue(new IntakePickUpDropCommand(m_robotIntake, IntakeConstants.kIntakeObjectCubeInConeOut));
+    coneInCubeOutButtonTrigger.whileTrue(new IntakePickUpDropCommand(m_robotIntake, IntakeConstants.kIntakeObjectCubeInConeOut));
 
-    cubeInConeOutButtonTrigger.or(coneInCubeOutButtonTrigger).whenInactive(new IntakeHoldObjectCommand(m_robotIntake));
+    cubeInConeOutButtonTrigger.or(coneInCubeOutButtonTrigger).whileFalse(new IntakeHoldObjectCommand(m_robotIntake));
 
     //Arm Buttons
-    new JoystickButton(m_operatorController, Button.kRightBumper.value).whenPressed(new SetArmPositionCommand(m_robotArm, true));
-    new JoystickButton(m_operatorController, Button.kLeftBumper.value).whenPressed(new SetArmPositionCommand(m_robotArm, false));
+    new JoystickButton(m_operatorController, Button.kRightBumper.value).whileTrue(new SetArmPositionCommand(m_robotArm, true));
+    new JoystickButton(m_operatorController, Button.kLeftBumper.value).whileTrue(new SetArmPositionCommand(m_robotArm, false));
 
   }
 
