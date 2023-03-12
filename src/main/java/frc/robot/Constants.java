@@ -34,11 +34,11 @@ public final class Constants {
     public static final int kIntakeMotorStopSpeed = 0;
 
     // 2023
-    public static final double kIntakeOutputPower = 0.3;
-    public static final int kIntakeCurrentLimitA = 25;
+    public static final double kIntakeOutputPower = 0.5;
+    public static final int kIntakeOutputCurrentLimitA = 20;
 
-    public static final double kIntakeHoldPower = 0.3;
-    public static final int kIntakeHoldCurrentLimitA = 25;
+    public static final double kIntakeHoldPower = 0.05;
+    public static final int kIntakeHoldCurrentLimitA = 5;
 
     public static final int kIntakeObjectNothing = 0; // numbers for representing game objects held
     public static final int kIntakeObjectCubeInConeOut = 1;
@@ -59,6 +59,8 @@ public final class Constants {
     // 2023 
     public static final double kArmUpSpeed = 0.3; // untested
     public static final double kArmDownSpeed = 0.3; // untested
+
+    public static final int kArmCurrentLimitA = 20; // untested
 
     public static final double kArmStopSpeed = 0.0;
 

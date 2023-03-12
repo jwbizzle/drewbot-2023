@@ -9,12 +9,14 @@ import static edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.commands.SetArmPositionCommand;
+import frc.robot.commands.SetArmSpeedCommand;
 // import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.AutoTimeCommandGroup;
 import frc.robot.commands.GrandTheftDriveCommand;
@@ -91,13 +93,18 @@ public class RobotContainer {
 
     System.out.println("configureButtonBindings");
     cubeInConeOutButtonTrigger.whileTrue(new IntakePickUpDropCommand(m_robotIntake, IntakeConstants.kIntakeObjectCubeInConeOut));
-    coneInCubeOutButtonTrigger.whileTrue(new IntakePickUpDropCommand(m_robotIntake, IntakeConstants.kIntakeObjectCubeInConeOut));
+    coneInCubeOutButtonTrigger.whileTrue(new IntakePickUpDropCommand(m_robotIntake, IntakeConstants.kIntakeObjectConeInCubeOut));
 
-    cubeInConeOutButtonTrigger.or(coneInCubeOutButtonTrigger).whileFalse(new IntakeHoldObjectCommand(m_robotIntake));
+    //cubeInConeOutButtonTrigger.or(coneInCubeOutButtonTrigger).whileFalse(new IntakeHoldObjectCommand(m_robotIntake));
 
     //Arm Buttons
-    new JoystickButton(m_operatorController, Button.kRightBumper.value).whileTrue(new SetArmPositionCommand(m_robotArm, true));
-    new JoystickButton(m_operatorController, Button.kLeftBumper.value).whileTrue(new SetArmPositionCommand(m_robotArm, false));
+    JoystickButton armUpButton = new JoystickButton(m_operatorController, Button.kRightBumper.value);
+    JoystickButton armDownButton = new JoystickButton(m_operatorController, Button.kLeftBumper.value);
+
+    armUpButton.whileTrue(new SetArmSpeedCommand(m_robotArm, ArmConstants.kArmUpSpeed));
+    armDownButton.whileTrue(new SetArmSpeedCommand(m_robotArm, ArmConstants.kArmDownSpeed));
+
+    armDownButton.or(armDownButton).whileFalse(new SetArmSpeedCommand(m_robotArm, ArmConstants.kArmStopSpeed));
 
   }
 

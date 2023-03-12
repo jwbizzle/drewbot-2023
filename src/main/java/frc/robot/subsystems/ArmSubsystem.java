@@ -66,6 +66,18 @@ public class ArmSubsystem extends SubsystemBase {
      */
     SmartDashboard.putNumber("Encoder Velocity", m_encoder.getVelocity());
   }
+  public void setSpeedAndLimit(double speed, int amps) {
+    // Display values for debugging.
+    if (DebugConstants.kDebugArmSubsystem){
+      System.out.println("IntakeSubsystem.setSpeedAndLimit - Setting motor speed: " + speed + ".");
+      System.out.println("IntakeSubsystem.setSpeedAndLimit - Setting motor limit (amps): " + amps + ".");
+    }
+
+    m_armMotor.set(speed);
+    m_armMotor.setSmartCurrentLimit(amps);
+
+  }
+
 
   // Get current position
   public boolean getPosition() {
