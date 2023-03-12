@@ -14,9 +14,9 @@ package frc.robot;
  */
 public final class Constants {
   public static final class DebugConstants {
-    public static final boolean kDebugArmSubsystem = true;
-    public static final boolean kDebugIntakeSubsystem = true;
-    public static final boolean kDebugDriveSubsystem = true;
+    public static final boolean kDebugArmSubsystem = false;
+    public static final boolean kDebugIntakeSubsystem = false;
+    public static final boolean kDebugDriveSubsystem = false;
     public static final double kDebugDriveSubsystemTreshold = 0.2;
   }
 

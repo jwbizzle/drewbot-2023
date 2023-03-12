@@ -31,6 +31,8 @@ public class IntakeHoldObjectCommand extends CommandBase {
     double intakePower;
     int intakeAmps;
 
+    System.out.println("intake object hold " + m_intake.m_spinDirection);
+
     if(m_intake.m_spinDirection == IntakeConstants.kIntakeObjectCubeInConeOut){
       intakePower = IntakeConstants.kIntakeHoldPower;
       intakeAmps = IntakeConstants.kIntakeHoldCurrentLimitA;

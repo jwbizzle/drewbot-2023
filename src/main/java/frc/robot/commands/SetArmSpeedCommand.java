@@ -28,8 +28,8 @@ public class SetArmSpeedCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("speed input "+m_speed);
     m_arm.setSpeedAndLimit(m_speed, ArmConstants.kArmCurrentLimitA);
-   
   }
 
   // Called once the command ends or is interrupted.

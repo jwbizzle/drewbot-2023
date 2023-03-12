@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.Constants.IntakeConstants;;
 
@@ -15,6 +14,7 @@ public class IntakePickUpDropCommand extends CommandBase {
   /** Creates a new SetReverseIntakeSpeed. */
   public IntakePickUpDropCommand(IntakeSubsystem subsystem, int spinDirection) {
     m_intake = subsystem;
+    System.out.println("intake object pickup drop command start, spin direction: "+spinDirection);
     m_intake.m_spinDirection = spinDirection;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -32,13 +32,15 @@ public class IntakePickUpDropCommand extends CommandBase {
     double intakePower;
     int intakeAmps;
 
+    System.out.println("intake object pickup drop " + m_intake.m_spinDirection);
+
     if(m_intake.m_spinDirection == IntakeConstants.kIntakeObjectCubeInConeOut){
       intakePower = IntakeConstants.kIntakeOutputPower;
-      intakeAmps = IntakeConstants.kIntakeCurrentLimitA;
+      intakeAmps = IntakeConstants.kIntakeOutputCurrentLimitA;
       
     } else if(m_intake.m_spinDirection == IntakeConstants.kIntakeObjectConeInCubeOut){
       intakePower = -IntakeConstants.kIntakeOutputPower; // reverse spin
-      intakeAmps = IntakeConstants.kIntakeCurrentLimitA;
+      intakeAmps = IntakeConstants.kIntakeOutputCurrentLimitA;
 
     } else{
       intakePower = 0.0;
