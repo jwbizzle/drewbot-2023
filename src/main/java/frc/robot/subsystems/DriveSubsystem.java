@@ -5,25 +5,31 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import frc.robot.Constants.DebugConstants;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
+  
+  //Individual motors
+  private CANSparkMax m_leftFrontMotor = new CANSparkMax(DriveConstants.kLeftFrontMotorId, MotorType.kBrushless);
+  private CANSparkMax m_leftBackMotor = new CANSparkMax(DriveConstants.kLeftBackMotorId, MotorType.kBrushless);
+
+  private CANSparkMax m_rightFrontMotor = new CANSparkMax(DriveConstants.kRightFrontMotorId, MotorType.kBrushless);
+  private CANSparkMax m_rightBackMotor = new CANSparkMax(DriveConstants.kRightBackMotorId, MotorType.kBrushless);
+ 
   // The motors on the left side of the drive.
   private final MotorControllerGroup m_leftMotors =
-      new MotorControllerGroup(
-          new CANSparkMax(DriveConstants.kLeftFrontMotorId, MotorType.kBrushless),
-          new CANSparkMax(DriveConstants.kLeftBackMotorId, MotorType.kBrushless));
+      new MotorControllerGroup(m_leftFrontMotor, m_leftBackMotor);
 
   // The motors on the right side of the drive.
   private final MotorControllerGroup m_rightMotors =
-      new MotorControllerGroup(
-          new CANSparkMax(DriveConstants.kRightFrontMotorId, MotorType.kBrushless),
-          new CANSparkMax(DriveConstants.kRightBackMotorId, MotorType.kBrushless));
+      new MotorControllerGroup(m_rightFrontMotor, m_rightBackMotor);
 
   // The robot's drive
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
@@ -37,7 +43,12 @@ public class DriveSubsystem extends SubsystemBase {
     // This was determined through trail and error.  In our code we'll invert
     // the "left" side and also negate the forward value in arcadeDrive().
     m_leftMotors.setInverted(true);
-    // m_drive.setSafetyEnabled(false);
+
+    //Set coast by default
+    m_leftFrontMotor.setIdleMode(IdleMode.kCoast);
+    m_leftBackMotor.setIdleMode(IdleMode.kCoast);
+    m_rightFrontMotor.setIdleMode(IdleMode.kCoast);
+    m_rightBackMotor.setIdleMode(IdleMode.kCoast);
   }
 
   /**
@@ -47,13 +58,6 @@ public class DriveSubsystem extends SubsystemBase {
    * @param rot the commanded rotation
    */
   public void arcadeDrive(double fwd, double rot) {
-    // Display values for debugging.
-    if (DebugConstants.kDebugDriveSubsystem){
-      if (Math.abs(fwd) > DebugConstants.kDebugDriveSubsystemTreshold || Math.abs(rot) > DebugConstants.kDebugDriveSubsystemTreshold) {
-        System.out.println("DriveSubsystem.arcadeDrive - Forward: " + fwd + " Rotation: " + rot + ".");
-      }
-    }
-
     // Negate the forward/backward value to get the stick behaving correctly
     // since we inverted the left motors.
     m_drive.arcadeDrive(-fwd, rot);
@@ -65,18 +69,17 @@ public class DriveSubsystem extends SubsystemBase {
    * @param accleration the commanded acceleration
    * @param steering the commanded steering
    */
-  public void gtaDrive(double accleration, double steering) {
-    // Display values for debugging.
-    if (DebugConstants.kDebugDriveSubsystem){
-      if (Math.abs(accleration) > DebugConstants.kDebugDriveSubsystemTreshold || Math.abs(steering) > DebugConstants.kDebugDriveSubsystemTreshold) {
-        System.out.println("DriveSubsystem.gtaDrive - Acceleration: " + accleration + " Steering: " + steering + ".");
-      }
-    }
-    
+  public void gtaDrive(double accleration, double steering) {    
     // Pass in the left speed first (which is the sum of acceleration and steering) 
     // and then the right speed (which is the difference).  Use the tankDrive method.
+    SmartDashboard.putNumber("Drive Forward Power (%)", accleration);
+    SmartDashboard.putNumber("Drive Turn Power (%)", steering);
+
     m_drive.tankDrive(accleration + steering, accleration - steering);
     // m_drive.arcadeDrive(accleration, steering); 
+
+    SmartDashboard.putNumber("Drive Left Power (%)", accleration + steering);
+    SmartDashboard.putNumber("Drive Right Power (%)", accleration - steering);
   }
 
   /**

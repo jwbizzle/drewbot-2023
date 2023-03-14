@@ -15,17 +15,14 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.commands.SetArmPositionCommand;
-import frc.robot.commands.SetArmSpeedCommand;
+import frc.robot.commands.SetArmMotorCommand;
 // import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.AutoTimeCommandGroup;
 import frc.robot.commands.GrandTheftDriveCommand;
 import frc.robot.commands.HalveDriveSpeedCommand;
-import frc.robot.commands.IntakeHoldObjectCommand;
-import frc.robot.commands.IntakePickUpDropCommand;
-import frc.robot.commands.SetIntakeSpeedCommand;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import frc.robot.commands.SetIntakeMotorCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -46,7 +43,7 @@ public class RobotContainer {
   // A simple auto routine that drives forward a specified duration in seconds and then stops.
   //private final Command m_simpleAuto = new SetDriveSpeedCommand(m_robotDrive, AutoConstants.kAutoDriveSpeed, AutoConstants.kAutoDriveRotation).withTimeout(AutoConstants.kAutoDriveDuration);
   //private final Command m_simpleAuto = new AutoTimeCommandGroup(m_robotDrive, m_robotIntake, m_robotArm);
-  private final Command m_simpleAuto = new AutoTimeCommandGroup(m_robotDrive);
+  //private final Command m_simpleAuto = new AutoTimeCommandGroup(m_robotDrive);
   
   // A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -70,10 +67,10 @@ public class RobotContainer {
     );
 
     // Add commands to the autonomous command chooser
-    m_chooser.setDefaultOption("Auto Shoot and Taxi", m_simpleAuto);
+    //m_chooser.setDefaultOption("Auto Shoot and Taxi", m_simpleAuto);
 
     // Put the chooser on the dashboard
-    Shuffleboard.getTab("Autonomous").add(m_chooser);
+    //Shuffleboard.getTab("Autonomous").add(m_chooser);
   }
 
   /**
@@ -87,27 +84,36 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kRightBumper.value)
         .whileTrue(new HalveDriveSpeedCommand(m_robotDrive));
 
-    // Control the intake motor speed while the operator is holder the triggers
-    Trigger cubeInConeOutButtonTrigger = new Trigger(() -> m_operatorController.getRightTriggerAxis() > OIConstants.kDeadbandThreshold);
-    Trigger coneInCubeOutButtonTrigger = new Trigger(() -> m_operatorController.getLeftTriggerAxis() > OIConstants.kDeadbandThreshold);
+    // Intake motor bindings
+    new JoystickButton(m_operatorController, Button.kY.value)
+      .whileTrue(new SetIntakeMotorCommand(m_robotIntake, -IntakeConstants.kIntakeOutputPower, IntakeConstants.kIntakeOutputCurrentLimitA))
+      .onFalse(new SetIntakeMotorCommand(m_robotIntake, -IntakeConstants.kIntakeHoldPower, IntakeConstants.kIntakeOutputCurrentLimitA));
+    new JoystickButton(m_operatorController, Button.kA.value)
+      .whileTrue(new SetIntakeMotorCommand(m_robotIntake, IntakeConstants.kIntakeOutputPower, IntakeConstants.kIntakeOutputCurrentLimitA))
+      .onFalse(new SetIntakeMotorCommand(m_robotIntake, IntakeConstants.kIntakeHoldPower, IntakeConstants.kIntakeOutputCurrentLimitA));
+    
+    // Arm motor bindings
+    new JoystickButton(m_operatorController, Button.kRightBumper.value)
+      .whileTrue(new SetArmMotorCommand(m_robotArm, ArmConstants.kArmOutputPower))
+      .onFalse(new SetArmMotorCommand(m_robotArm, ArmConstants.kArmStopPower));
+    new JoystickButton(m_operatorController, Button.kLeftBumper.value)
+      .whileTrue(new SetArmMotorCommand(m_robotArm, -ArmConstants.kArmOutputPower))
+      .onFalse(new SetArmMotorCommand(m_robotArm, ArmConstants.kArmStopPower)); 
+  }
 
+  // Get Intake subsystem
+  public IntakeSubsystem getIntakeSubsystem() {
+    return m_robotIntake;
+  }
 
+  // Get Arm subsystem
+  public ArmSubsystem getArmSubsystem() {
+    return m_robotArm;
+  }
 
-    System.out.println("configureButtonBindings");
-    cubeInConeOutButtonTrigger.whileTrue(new IntakePickUpDropCommand(m_robotIntake, IntakeConstants.kIntakeObjectCubeInConeOut));
-    coneInCubeOutButtonTrigger.whileTrue(new IntakePickUpDropCommand(m_robotIntake, IntakeConstants.kIntakeObjectConeInCubeOut));
-
-    //cubeInConeOutButtonTrigger.or(coneInCubeOutButtonTrigger).whileFalse(new IntakeHoldObjectCommand(m_robotIntake));
-
-    //Arm Buttons
-    JoystickButton armUpButton = new JoystickButton(m_operatorController, Button.kRightBumper.value);
-    JoystickButton armDownButton = new JoystickButton(m_operatorController, Button.kLeftBumper.value);
-
-    armUpButton.whileTrue(new SetArmSpeedCommand(m_robotArm, ArmConstants.kArmUpSpeed));
-    armDownButton.whileTrue(new SetArmSpeedCommand(m_robotArm, ArmConstants.kArmDownSpeed));
-
-    armDownButton.or(armDownButton).whileFalse(new SetArmSpeedCommand(m_robotArm, ArmConstants.kArmStopSpeed));
-
+  // Get Intake subsystem
+  public DriveSubsystem getDriveSubsystem() {
+    return m_robotDrive;
   }
 
   /**

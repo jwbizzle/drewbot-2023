@@ -5,17 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class SetArmSpeedCommand extends CommandBase {
+public class SetArmMotorCommand extends CommandBase {
   private final ArmSubsystem m_arm;
-  private double m_speed;
+  private double m_percent;
 
   /** Creates a new SetReverseIntakeSpeed. */
-  public SetArmSpeedCommand(ArmSubsystem subsystem, double speed) {
+  public SetArmMotorCommand(ArmSubsystem subsystem, double percent) {
     m_arm = subsystem;
-    m_speed = speed;
+    m_percent = percent;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_arm);
@@ -28,8 +27,7 @@ public class SetArmSpeedCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("speed input "+m_speed);
-    m_arm.setSpeedAndLimit(m_speed, ArmConstants.kArmCurrentLimitA);
+    m_arm.setArmMotor(m_percent);
   }
 
   // Called once the command ends or is interrupted.

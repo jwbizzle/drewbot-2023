@@ -5,37 +5,29 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.Constants.DebugConstants;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
 
   CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorId, MotorType.kBrushless);
-  public int m_spinDirection = IntakeConstants.kIntakeObjectNothing;
 
   /** Creates a new IntakeSubsystem. */
-  public IntakeSubsystem() {}
-
-  public void setSpeed(double speed) {
-    // Display values for debugging.
-    if (DebugConstants.kDebugIntakeSubsystem){
-      System.out.println("IntakeSubsystem.setSpeed - Setting motor speed: " + speed + ".");
-    }
-
-    m_intakeMotor.set(speed);
+  public IntakeSubsystem() {
+    m_intakeMotor.setInverted(false);
+    m_intakeMotor.setIdleMode(IdleMode.kBrake);
   }
-  public void setSpeedAndLimit(double speed, int amps) {
-    // Display values for debugging.
-    if (DebugConstants.kDebugIntakeSubsystem){
-      System.out.println("IntakeSubsystem.setSpeedAndLimit - Setting motor speed: " + speed + ".");
-      System.out.println("IntakeSubsystem.setSpeedAndLimit - Setting motor limit (amps): " + amps + ".");
-    }
 
-    m_intakeMotor.set(speed);
+  public void setIntakeMotor(double percent, int amps) {
+    m_intakeMotor.set(percent);
     m_intakeMotor.setSmartCurrentLimit(amps);
+    SmartDashboard.putNumber("Intake Power (%)", percent);
+    SmartDashboard.putNumber("Intake Motor Current (amps)", m_intakeMotor.getOutputCurrent());
+    SmartDashboard.putNumber("Intake Motor Temperature (C)", m_intakeMotor.getMotorTemperature());
 
   }
 

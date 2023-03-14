@@ -5,20 +5,18 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.DebugConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
-  private boolean m_isUp = false;
-  private double m_lastBurstTime;
 
   private CANSparkMax m_armMotor = new CANSparkMax(ArmConstants.kArmMotorId, MotorType.kBrushless);
-  private RelativeEncoder m_encoder;
+  //private RelativeEncoder m_encoder;
 
   /** Creates a new IntakeSubsystem. */
   public ArmSubsystem() {
@@ -27,28 +25,29 @@ public class ArmSubsystem extends SubsystemBase {
      * in the SPARK MAX to their factory default state. If no argument is passed, these
      * parameters will not persist between power cycles
      */
-    m_armMotor.restoreFactoryDefaults();
+    //m_armMotor.restoreFactoryDefaults();
 
     /**
      * In order to read encoder values an encoder object is created using the
      * getEncoder() method from an existing CANSparkMax object
      */
-    m_encoder = m_armMotor.getEncoder();
+    //m_encoder = m_armMotor.getEncoder();
 
     /**
      * Invert our arm motor.
      */
-    m_armMotor.setInverted(true);
+    m_armMotor.setInverted(false);
+    m_armMotor.setIdleMode(IdleMode.kBrake);
+    m_armMotor.setSmartCurrentLimit(ArmConstants.kArmCurrentLimitA);
   }
 
   // Set arm motor speed
-  public void setSpeed(double speed) {
-    // Display values for debugging.
-    if (DebugConstants.kDebugArmSubsystem) {
-      System.out.println("ArmSubsystem.setSpeed - Setting motor speed: " + speed + ".");
-    }
+  public void setArmMotor(double percent) {
     
-    m_armMotor.set(speed);
+    m_armMotor.set(percent);
+    SmartDashboard.putNumber("Arm Power (%)", percent);
+    SmartDashboard.putNumber("Arm Motor Current (amps)", m_armMotor.getOutputCurrent());
+    SmartDashboard.putNumber("Arm Motor Temperature (C)", m_armMotor.getMotorTemperature());
 
     /**
      * Encoder position is read from a RelativeEncoder object by calling the
@@ -56,7 +55,7 @@ public class ArmSubsystem extends SubsystemBase {
      * 
      * GetPosition() returns the position of the encoder in units of revolutions
      */
-    SmartDashboard.putNumber("Encoder Position", m_encoder.getPosition());
+    //SmartDashboard.putNumber("Encoder Position", m_encoder.getPosition());
 
     /**
      * Encoder velocity is read from a RelativeEncoder object by calling the
@@ -64,39 +63,7 @@ public class ArmSubsystem extends SubsystemBase {
      * 
      * GetVelocity() returns the velocity of the encoder in units of RPM
      */
-    SmartDashboard.putNumber("Encoder Velocity", m_encoder.getVelocity());
-  }
-  public void setSpeedAndLimit(double speed, int amps) {
-    // Display values for debugging.
-    if (DebugConstants.kDebugArmSubsystem){
-      System.out.println("IntakeSubsystem.setSpeedAndLimit - Setting motor speed: " + speed + ".");
-      System.out.println("IntakeSubsystem.setSpeedAndLimit - Setting motor limit (amps): " + amps + ".");
-    }
-
-    m_armMotor.set(speed);
-    m_armMotor.setSmartCurrentLimit(amps);
-
-  }
-
-
-  // Get current position
-  public boolean getPosition() {
-    return m_isUp;
-  }
-
-  // Set current position
-  public void setPosition(boolean isUp) {
-    this.m_isUp = isUp;
-  }
-
-  // Get recent burst time
-  public double getLastBurtTime() {
-    return m_lastBurstTime;
-  }
-
-  // Get the burst time
-  public void setLastBurtTime(double burstTime) {
-    this.m_lastBurstTime = burstTime;
+    //SmartDashboard.putNumber("Encoder Velocity", m_encoder.getVelocity());
   }
 
   @Override

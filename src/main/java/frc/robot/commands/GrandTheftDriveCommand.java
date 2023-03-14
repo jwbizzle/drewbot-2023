@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.Constants.DebugConstants;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.DoubleSupplier;
 
@@ -33,13 +32,6 @@ public class GrandTheftDriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Display values for debugging.
-    if (DebugConstants.kDebugDriveSubsystem){
-      if (Math.abs(m_rightTrigger.getAsDouble()) > DebugConstants.kDebugDriveSubsystemTreshold || Math.abs(m_leftTrigger.getAsDouble()) > DebugConstants.kDebugDriveSubsystemTreshold) {
-        System.out.println("GrandTheftDriveCommand.execute - Drive Right: " + m_rightTrigger.getAsDouble() + " Drive Left: " + m_leftTrigger.getAsDouble());
-      }
-    }
-
     m_drive.gtaDrive(m_rightTrigger.getAsDouble() - m_leftTrigger.getAsDouble(), m_steering.getAsDouble());
   }
 
