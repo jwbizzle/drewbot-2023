@@ -42,7 +42,7 @@ public class RobotContainer {
   // The autonomous routines
 
   // A simple auto routine that drives forward a specified duration in seconds and then stops.
-  private final Command m_testAuto = new AutoTimeCommandGroup(m_robotIntake);
+  private final Command m_testAuto = new AutoTimeCommandGroup(m_robotDrive, m_robotIntake, m_robotArm);
   
   // A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();

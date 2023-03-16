@@ -16,16 +16,15 @@ import frc.robot.Constants.ArmConstants;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoTimeCommandGroup extends SequentialCommandGroup {
-  //private final DriveSubsystem m_drive;
+  private final DriveSubsystem m_drive;
   private final IntakeSubsystem m_intake;
-  //private final ArmSubsystem m_arm;
+  private final ArmSubsystem m_arm;
 
   /** Creates a new AutoTimeCommandGroup. */
-  //public AutoTimeCommandGroup(DriveSubsystem drive, IntakeSubsystem intake, ArmSubsystem arm) {
-  public AutoTimeCommandGroup(IntakeSubsystem intake) {
-    //m_drive = drive;
+  public AutoTimeCommandGroup(DriveSubsystem drive, IntakeSubsystem intake, ArmSubsystem arm) {
+    m_drive = drive;
     m_intake = intake;
-    //m_arm = arm;
+    m_arm = arm;
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
