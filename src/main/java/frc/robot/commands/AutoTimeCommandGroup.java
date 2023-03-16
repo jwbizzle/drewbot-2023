@@ -30,10 +30,15 @@ public class AutoTimeCommandGroup extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+        // intake full for 1 sec
         new SetIntakeMotorCommand(m_intake, IntakeConstants.kIntakeOutputPower, IntakeConstants.kIntakeOutputCurrentLimitA).withTimeout(1),
+        // intake stop wait 5 sec
         new SetIntakeMotorCommand(m_intake, 0.0, 0).withTimeout(5),
+        // intake full for 2 sec
         new SetIntakeMotorCommand(m_intake, IntakeConstants.kIntakeOutputPower, IntakeConstants.kIntakeOutputCurrentLimitA).withTimeout(2),
+        // intake hold for 5 sec
         new SetIntakeMotorCommand(m_intake, IntakeConstants.kIntakeHoldPower, IntakeConstants.kIntakeHoldCurrentLimitA).withTimeout(5),
+        // intake stop
         new SetIntakeMotorCommand(m_intake, 0.0, 0)
         );
   }
