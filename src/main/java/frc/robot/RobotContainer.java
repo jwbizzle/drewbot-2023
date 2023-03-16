@@ -9,18 +9,22 @@ import static edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+
 import frc.robot.commands.SetArmMotorCommand;
 import frc.robot.commands.AutoTimeCommandGroup;
 import frc.robot.commands.GrandTheftDriveCommand;
 import frc.robot.commands.HalveDriveSpeedCommand;
 import frc.robot.commands.SetIntakeMotorCommand;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -38,9 +42,7 @@ public class RobotContainer {
   // The autonomous routines
 
   // A simple auto routine that drives forward a specified duration in seconds and then stops.
-  //private final Command m_simpleAuto = new SetDriveSpeedCommand(m_robotDrive, AutoConstants.kAutoDriveSpeed, AutoConstants.kAutoDriveRotation).withTimeout(AutoConstants.kAutoDriveDuration);
-  //private final Command m_simpleAuto = new AutoTimeCommandGroup(m_robotDrive, m_robotIntake, m_robotArm);
-  //private final Command m_simpleAuto = new AutoTimeCommandGroup(m_robotDrive);
+  private final Command m_testAuto = new AutoTimeCommandGroup(m_robotIntake);
   
   // A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -64,10 +66,10 @@ public class RobotContainer {
     );
 
     // Add commands to the autonomous command chooser
-    //m_chooser.setDefaultOption("Auto Shoot and Taxi", m_simpleAuto);
+    m_chooser.setDefaultOption("Auto Shoot and Taxi", m_testAuto);
 
-    // Put the chooser on the dashboard
-    //Shuffleboard.getTab("Autonomous").add(m_chooser);
+    // Put the chooser on the SmartDashboard
+    SmartDashboard.putData("Auto choices", m_chooser);
   }
 
   /**

@@ -16,52 +16,25 @@ import frc.robot.Constants.ArmConstants;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoTimeCommandGroup extends SequentialCommandGroup {
-  private final DriveSubsystem m_drive;
-  //private final IntakeSubsystem m_intake;
+  //private final DriveSubsystem m_drive;
+  private final IntakeSubsystem m_intake;
   //private final ArmSubsystem m_arm;
 
   /** Creates a new AutoTimeCommandGroup. */
   //public AutoTimeCommandGroup(DriveSubsystem drive, IntakeSubsystem intake, ArmSubsystem arm) {
-  public AutoTimeCommandGroup(DriveSubsystem drive) {
-    m_drive = drive;
-    //m_intake = intake;
+  public AutoTimeCommandGroup(IntakeSubsystem intake) {
+    //m_drive = drive;
+    m_intake = intake;
     //m_arm = arm;
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        //new SetArmSpeedCommand(m_arm, ArmConstants.kArmHoldUp).withTimeout(3),
-        //new SetIntakeSpeedCommand(m_intake, IntakeConstants.kIntakeMotorReverseSpeed).withTimeout(1.5),
-        //new SetIntakeSpeedCommand(m_intake, IntakeConstants.kIntakeMotorForwardSpeed).withTimeout(1.5),
-        
-        // Stop the motor
-        //new SetIntakeSpeedCommand(m_intake, 0).withTimeout(1.5),
-        
-        
-        // Drive backwards
-        new GrandTheftDriveCommand(
-          m_drive, 
-          () -> AutoConstants.kAutoDriveForwardSpeed, 
-          () -> AutoConstants.kAutoDriveReverseSpeed, 
-          () -> AutoConstants.kAutoDriveSteeringSpeed).withTimeout(1.5),
-        
-        // Stop driving
-        new GrandTheftDriveCommand(
-          m_drive, 
-          () -> 0.0, 
-          () -> 0.0, 
-          () -> 0.0).withTimeout(0.5),
-        
-        // Drive backwards
-        new SetDriveSpeedCommand(m_drive, 0.25).withTimeout(1.5),
-
-        // Stop driving
-        new SetDriveSpeedCommand(m_drive, 0.0).withTimeout(0.5)
-          
-        // Running a few intake commands after driving to help debug.
-        //new SetIntakeSpeedCommand(m_intake, IntakeConstants.kIntakeMotorReverseSpeed).withTimeout(1.5),
-        //new SetIntakeSpeedCommand(m_intake, IntakeConstants.kIntakeMotorForwardSpeed).withTimeout(1.5),
-        //new SetIntakeSpeedCommand(m_intake, 0).withTimeout(1.5)
+        new SetIntakeMotorCommand(m_intake, IntakeConstants.kIntakeOutputPower, IntakeConstants.kIntakeOutputCurrentLimitA).withTimeout(1),
+        new SetIntakeMotorCommand(m_intake, 0.0, 0).withTimeout(5),
+        new SetIntakeMotorCommand(m_intake, IntakeConstants.kIntakeOutputPower, IntakeConstants.kIntakeOutputCurrentLimitA).withTimeout(2),
+        new SetIntakeMotorCommand(m_intake, IntakeConstants.kIntakeHoldPower, IntakeConstants.kIntakeHoldCurrentLimitA).withTimeout(5),
+        new SetIntakeMotorCommand(m_intake, 0.0, 0)
         );
   }
 }
