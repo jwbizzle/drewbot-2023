@@ -18,18 +18,20 @@ public final class Constants {
     public static final int kLeftBackMotorId = 2;
     public static final int kRightFrontMotorId = 3;
     public static final int kRightBackMotorId = 4;
+    
+    // Drive at reduced power levels when the right bumper is pressed.
     public static final double kHalfDriveScale = 0.5;
   }
 
   public static final class IntakeConstants {
     public static final int kIntakeMotorId = 6;
     
-    //Power Constants
+    //Power constants
     public static final double kIntakeOutputPower = 1.0;
     public static final double kIntakeHoldPower = 0.07;
     public static final int kIntakeMotorStopPower = 0;
 
-    //Amperage Constants
+    //Amperage constants
     public static final int kIntakeOutputCurrentLimitA = 25;
     public static final int kIntakeHoldCurrentLimitA = 5;
     public static final int kIntakeStopCurrentLimitA = 5;
@@ -38,24 +40,31 @@ public final class Constants {
 
   public static final class ArmConstants {
     public static final int kArmMotorId = 5;
+    
+    //Power constants
     public static final double kArmOutputPower = 0.4;
     public static final double kArmStopPower = 0.0;
+    
+    //Amperage constants
     public static final int kArmCurrentLimitA = 20;
   }
 
   public static final class AutoConstants {
     // Autonomous drive constants
-    public static final double kAutoDriveReverseSpeed = 0.25;
-    public static final double kAutoDriveForwardSpeed = 0.0;
-    public static final double kAutoDriveSteeringSpeed = 0.0;
-    public static final double kAutoDriveRotation = 0.0;
-    public static final double kAutoDriveDuration = 3;
+    public static final double kArmExtendTimeS = 2.0;
+    public static final double kAutoThrowTimeS = 0.375;
+    public static final double kAutoDriveTimeS = 6.0;
+    public static final double kAutoDriveSpeed = -0.25;
 
   }
 
   public static final class OIConstants {
+    
+    //Controller constants
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
+    
+    // Deadband is not used at this time.  The differential drive object manages the deadband.
     public static final double kDeadbandThreshold = 0.2;
   }
 }
