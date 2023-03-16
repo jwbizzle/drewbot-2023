@@ -95,6 +95,13 @@ public class DriveSubsystem extends SubsystemBase {
     m_leftMotors.set(speed);
     m_rightMotors.set(speed);
   }
+
+  public void setIdleMode(IdleMode mode) {
+    m_leftFrontMotor.setIdleMode(mode);
+    m_leftBackMotor.setIdleMode(mode);
+    m_rightFrontMotor.setIdleMode(mode);
+    m_rightBackMotor.setIdleMode(mode);
+  }
   
   @Override
   public void periodic() {
