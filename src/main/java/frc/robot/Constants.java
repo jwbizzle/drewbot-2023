@@ -56,6 +56,41 @@ public final class Constants {
     public static final double kAutoDriveTimeS = 6.0;
     public static final double kAutoDriveSpeed = -0.25;
 
+
+    // Speed the robot drived while scoring/approaching station, default = 0.4
+    public static final double kRobotSpeedFast = 0.3;
+
+    // Speed the robot drives while balancing itself on the charge station.
+    // Should be roughly half the fast speed, to make the robot more accurate,
+    // default = 0.2
+    public static final double kRobotSpeedSlow = 0.15;
+
+    // Angle where the robot knows it is on the charge station, default = 13.0
+    public static final double kOnChargeStationDegree = 13.0;
+
+    // Angle where the robot can assume it is level on the charging station
+    // Used for exiting the drive forward sequence as well as for auto balancing,
+    // default = 6.0
+    public static final double kLevelDegree = 6.0;
+
+    // Amount of time a sensor condition needs to be met before changing states in
+    // seconds
+    // Reduces the impact of sensor noice, but too high can make the auto run
+    // slower, default = 0.2
+    public static final double kDebounceTime = 0.2;
+
+    // Amount of time to drive towards to scoring target when trying to bump the
+    // game piece off
+    // Time it takes to go from starting position to hit the scoring target
+    public static final double kSingleTapTime = 0.4;
+
+    // Amount of time to drive away from knocked over gamepiece before the second
+    // tap
+    public static final double kScoringBackUpTime = 0.35;
+
+    // Amount of time to drive forward to secure the scoring of the gamepiece
+    public static final double kDoubleTapTime = 0.3;
+
   }
 
   public static final class OIConstants {
