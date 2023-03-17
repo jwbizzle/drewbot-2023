@@ -18,7 +18,9 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 
 import frc.robot.commands.SetArmMotorCommand;
-import frc.robot.commands.AutoTimeCommandGroup;
+import frc.robot.commands.AutoDoNothing;
+import frc.robot.commands.AutoTapAndBalanceCommandGroup;
+import frc.robot.commands.AutoTapObjectCommandGroup;
 import frc.robot.commands.GrandTheftDriveCommand;
 import frc.robot.commands.HalveDriveSpeedCommand;
 import frc.robot.commands.SetIntakeMotorCommand;
@@ -42,7 +44,9 @@ public class RobotContainer {
   // The autonomous routines
 
   // A simple auto routine that drives forward a specified duration in seconds and then stops.
-  private final Command m_testAuto = new AutoTimeCommandGroup(m_robotDrive, m_robotIntake, m_robotArm);
+  private final Command m_nothingAuto = new AutoDoNothing();
+  private final Command m_tapAuto = new AutoTapObjectCommandGroup(m_robotDrive);
+  private final Command m_tapAndBalanceAuto = new AutoTapAndBalanceCommandGroup(m_robotDrive, m_robotIntake, m_robotArm);
   
   // A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -66,7 +70,9 @@ public class RobotContainer {
     );
 
     // Add commands to the autonomous command chooser
-    m_chooser.setDefaultOption("Auto Shoot and Taxi", m_testAuto);
+    m_chooser.setDefaultOption("Nothing Auto", m_nothingAuto);
+    m_chooser.setDefaultOption("Tap Auto", m_tapAuto);
+    m_chooser.setDefaultOption("Tap and Balance Auto", m_tapAndBalanceAuto);
 
     // Put the chooser on the SmartDashboard
     SmartDashboard.putData("Auto choices", m_chooser);
