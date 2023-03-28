@@ -29,9 +29,14 @@ public class AutoFireAndDriveCommandGroup extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SetArmMotorCommand(m_arm, -ArmConstants.kArmOutputPower).withTimeout(AutoConstants.kArmExtendTimeS), // arm up
-      new SetIntakeMotorCommand(m_intake, -IntakeConstants.kIntakeOutputPower, IntakeConstants.kIntakeOutputCurrentLimitA).withTimeout(AutoConstants.kAutoThrowTimeS), // shoot out cube
-      new SetDriveSpeedCommand(m_drive, -AutoConstants.kRobotSpeedFast).withTimeout(AutoConstants.kAutoDriveTimeS) // drive back
+      new SetArmMotorCommand(m_arm, ArmConstants.kArmOutputPower).withTimeout(AutoConstants.kArmExtendTimeS), // arm up
+      new SetArmMotorCommand(m_arm, 0.0).withTimeout(0.1), // arm stop
+      new SetIntakeMotorCommand(m_intake, -1.0, IntakeConstants.kIntakeOutputCurrentLimitA).withTimeout(AutoConstants.kAutoThrowTimeS), // shoot out cube
+      new SetIntakeMotorCommand(m_intake, 0.0, 0).withTimeout(0.1), // intake stop
+      new SetArmMotorCommand(m_arm, -ArmConstants.kArmOutputPower).withTimeout(AutoConstants.kArmExtendTimeS), // arm down
+      new SetArmMotorCommand(m_arm, 0.0).withTimeout(0.1), // arm stop
+      new SetDriveSpeedCommand(m_drive, -AutoConstants.kRobotSpeedFast).withTimeout(AutoConstants.kAutoDriveTimeS), // drive back
+      new SetDriveSpeedCommand(m_drive, 0.0) // stop driving
     );
   }
 }

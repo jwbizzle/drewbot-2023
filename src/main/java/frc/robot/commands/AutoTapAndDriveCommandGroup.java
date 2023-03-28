@@ -15,14 +15,10 @@ import frc.robot.subsystems.ArmSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoTapAndDriveCommandGroup extends SequentialCommandGroup {
   private final DriveSubsystem m_drive;
-  private final IntakeSubsystem m_intake;
-  private final ArmSubsystem m_arm;
 
   /** Creates a new AutoTimeCommandGroup. */
-  public AutoTapAndDriveCommandGroup(DriveSubsystem drive, IntakeSubsystem intake, ArmSubsystem arm) {
+  public AutoTapAndDriveCommandGroup(DriveSubsystem drive) {
     m_drive = drive;
-    m_intake = intake;
-    m_arm = arm;
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

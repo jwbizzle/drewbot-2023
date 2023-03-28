@@ -20,7 +20,13 @@ public final class Constants {
     public static final int kRightBackMotorId = 4;
     
     // Drive at reduced power levels when the right bumper is pressed.
-    public static final double kHalfDriveScale = 0.5;
+    public static final double kHalfDriveScale = 0.25;
+
+    public static final int kDriveCurrentLimitA = 100;
+
+    //easing
+    public static final boolean kEase = false;
+    public static final double kSlewRateLimiterRate = 0.95;
   }
 
   public static final class IntakeConstants {
@@ -51,19 +57,18 @@ public final class Constants {
 
   public static final class AutoConstants {
     // Autonomous drive constants
-    public static final double kArmExtendTimeS = 2.0;
-    public static final double kAutoThrowTimeS = 0.375;
-    public static final double kAutoDriveTimeS = 6.0;
-    public static final double kAutoDriveSpeed = -0.25;
+    public static final double kArmExtendTimeS = 1.0;
+    public static final double kAutoThrowTimeS = 0.5;
+    public static final double kAutoDriveTimeS = 0.6;
 
 
     // Speed the robot drived while scoring/approaching station, default = 0.4
-    public static final double kRobotSpeedFast = 0.3;
+    public static final double kRobotSpeedFast = 0.5;
 
     // Speed the robot drives while balancing itself on the charge station.
     // Should be roughly half the fast speed, to make the robot more accurate,
     // default = 0.2
-    public static final double kRobotSpeedSlow = 0.15;
+    public static final double kRobotSpeedSlow = 0.25;
 
     // Angle where the robot knows it is on the charge station, default = 13.0
     public static final double kOnChargeStationDegree = 13.0;

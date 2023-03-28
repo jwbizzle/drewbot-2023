@@ -19,16 +19,17 @@ public class SetDriveIdleModeCommand extends CommandBase {
     m_mode = mode;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("mode set:" + m_mode.toString());
     m_drive.setIdleMode(m_mode);
   }
 

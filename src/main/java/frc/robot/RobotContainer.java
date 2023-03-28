@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import static edu.wpi.first.wpilibj.XboxController.Button;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -18,7 +18,9 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 
 import frc.robot.commands.SetArmMotorCommand;
+import frc.robot.commands.SetDriveIdleModeCommand;
 import frc.robot.commands.AutoDoNothing;
+import frc.robot.commands.AutoFireAndDriveCommandGroup;
 import frc.robot.commands.AutoTapAndBalanceCommandGroup;
 import frc.robot.commands.AutoTapAndDriveCommandGroup;
 import frc.robot.commands.AutoTapObjectCommandGroup;
@@ -29,6 +31,7 @@ import frc.robot.commands.SetIntakeMotorCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import static edu.wpi.first.wpilibj.XboxController.Button;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -49,6 +52,7 @@ public class RobotContainer {
   private final Command m_tapAuto = new AutoTapObjectCommandGroup(m_robotDrive);
   private final Command m_tapAndBalanceAuto = new AutoTapAndBalanceCommandGroup(m_robotDrive);
   private final Command m_tapAndDriveAuto = new AutoTapAndDriveCommandGroup(m_robotDrive);
+  private final Command m_fireAndDriveAuto = new AutoFireAndDriveCommandGroup(m_robotDrive, m_robotIntake, m_robotArm);
   
   // A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -76,9 +80,10 @@ public class RobotContainer {
     m_chooser.setDefaultOption("Tap Auto", m_tapAuto);
     m_chooser.setDefaultOption("Tap and Balance Auto", m_tapAndBalanceAuto);
     m_chooser.setDefaultOption("Tap and Drive Auto", m_tapAndDriveAuto);
+    m_chooser.setDefaultOption("Fire and Drive Auto", m_fireAndDriveAuto);
 
     // Put the chooser on the SmartDashboard
-    SmartDashboard.putData("Auto choices", m_chooser);
+    SmartDashboard.putData("Auto Choices", m_chooser);
   }
 
   /**
@@ -91,6 +96,12 @@ public class RobotContainer {
     // While the driver is holding the shoulder button, drive at half speed
     new JoystickButton(m_driverController, Button.kRightBumper.value)
         .whileTrue(new HalveDriveSpeedCommand(m_robotDrive));
+
+    // Idle mode setter button binding
+    new JoystickButton(m_driverController, Button.kA.value)
+        .whileTrue(new SetDriveIdleModeCommand(m_robotDrive, IdleMode.kBrake));
+    new JoystickButton(m_driverController, Button.kB.value)
+        .whileTrue(new SetDriveIdleModeCommand(m_robotDrive, IdleMode.kCoast));
 
     // Intake motor bindings
     new JoystickButton(m_operatorController, Button.kY.value)
@@ -107,6 +118,7 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, Button.kLeftBumper.value)
       .whileTrue(new SetArmMotorCommand(m_robotArm, -ArmConstants.kArmOutputPower))
       .onFalse(new SetArmMotorCommand(m_robotArm, ArmConstants.kArmStopPower)); 
+
   }
 
   // Get Intake subsystem

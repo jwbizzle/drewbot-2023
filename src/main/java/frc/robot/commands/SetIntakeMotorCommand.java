@@ -31,7 +31,6 @@ public class SetIntakeMotorCommand extends CommandBase {
   @Override
   public void execute() {
     m_intake.setIntakeMotor(m_percent, m_amps);
-   
   }
 
   // Called once the command ends or is interrupted.

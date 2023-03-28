@@ -36,7 +36,8 @@ public class DriveSubsystem extends SubsystemBase {
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
   // Creates a SlewRateLimiter to help smooth driving.  We tried .5 which has a side effect. 
-  SlewRateLimiter filter = new SlewRateLimiter(0.9);
+  SlewRateLimiter filter = new SlewRateLimiter(DriveConstants.kSlewRateLimiterRate);
+
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -49,10 +50,17 @@ public class DriveSubsystem extends SubsystemBase {
     m_leftMotors.setInverted(true);
 
     //Set coast by default
-    m_leftFrontMotor.setIdleMode(IdleMode.kCoast);
-    m_leftBackMotor.setIdleMode(IdleMode.kCoast);
-    m_rightFrontMotor.setIdleMode(IdleMode.kCoast);
-    m_rightBackMotor.setIdleMode(IdleMode.kCoast);
+    IdleMode idleMode = IdleMode.kCoast;
+    m_leftFrontMotor.setIdleMode(idleMode);
+    m_leftBackMotor.setIdleMode(idleMode);
+    m_rightFrontMotor.setIdleMode(idleMode);
+    m_rightBackMotor.setIdleMode(idleMode);
+
+
+    m_leftFrontMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
+    m_leftBackMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
+    m_rightFrontMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
+    m_rightBackMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
   }
 
   /**
@@ -80,8 +88,12 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Drive Turn Power (%)", steering);
 
     //m_drive.tankDrive(accleration + steering, accleration - steering);
+    if (DriveConstants.kEase){
+      accleration = filter.calculate(accleration);
+      //steering = filter.calculate(steering);
+    }
 
-    m_drive.tankDrive(filter.calculate(accleration) + steering, filter.calculate(accleration) - steering);
+    m_drive.tankDrive(accleration + steering, accleration - steering);
     // m_drive.arcadeDrive(accleration, steering); 
 
     SmartDashboard.putNumber("Drive Left Power (%)", accleration + steering);
@@ -107,6 +119,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_leftBackMotor.setIdleMode(mode);
     m_rightFrontMotor.setIdleMode(mode);
     m_rightBackMotor.setIdleMode(mode);
+    SmartDashboard.putBoolean("Is Idle Mode Break:", mode == IdleMode.kBrake);
   }
   
   @Override
