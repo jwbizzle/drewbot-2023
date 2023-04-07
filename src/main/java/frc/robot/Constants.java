@@ -20,13 +20,15 @@ public final class Constants {
     public static final int kRightBackMotorId = 4;
     
     // Drive at reduced power levels when the right bumper is pressed.
-    public static final double kHalfDriveScale = 0.25;
+    public static final double kHalfDriveScale = 0.4;
 
-    public static final int kDriveCurrentLimitA = 100;
+    public static final int kDriveCurrentLimitA = 0; // 0 = don't limit
 
     //easing
-    public static final boolean kEase = false;
-    public static final double kSlewRateLimiterRate = 0.95;
+    public static final boolean kEase = true;
+    public static final double kSlewRateLimiterRate = 1.5;
+
+    public static final double kSteerMultipllier = 0.6;
   }
 
   public static final class IntakeConstants {
@@ -40,8 +42,7 @@ public final class Constants {
     //Amperage constants
     public static final int kIntakeOutputCurrentLimitA = 25;
     public static final int kIntakeHoldCurrentLimitA = 5;
-    public static final int kIntakeStopCurrentLimitA = 5;
-    
+    public static final int kIntakeStopCurrentLimitA = 5; 
   }
 
   public static final class ArmConstants {

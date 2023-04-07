@@ -56,11 +56,13 @@ public class DriveSubsystem extends SubsystemBase {
     m_rightFrontMotor.setIdleMode(idleMode);
     m_rightBackMotor.setIdleMode(idleMode);
 
+    if (DriveConstants.kDriveCurrentLimitA != 0){
+      m_leftFrontMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
+      m_leftBackMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
+      m_rightFrontMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
+      m_rightBackMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
+    }
 
-    m_leftFrontMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
-    m_leftBackMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
-    m_rightFrontMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
-    m_rightBackMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
   }
 
   /**
@@ -90,8 +92,9 @@ public class DriveSubsystem extends SubsystemBase {
     //m_drive.tankDrive(accleration + steering, accleration - steering);
     if (DriveConstants.kEase){
       accleration = filter.calculate(accleration);
-      //steering = filter.calculate(steering);
+      // steering = filter.calculate(steering);
     }
+    steering = steering * DriveConstants.kSteerMultipllier;
 
     m_drive.tankDrive(accleration + steering, accleration - steering);
     // m_drive.arcadeDrive(accleration, steering); 

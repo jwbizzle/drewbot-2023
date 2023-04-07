@@ -20,10 +20,11 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.commands.SetArmMotorCommand;
 import frc.robot.commands.SetDriveIdleModeCommand;
 import frc.robot.commands.AutoDoNothing;
-import frc.robot.commands.AutoFireAndDriveCommandGroup;
-import frc.robot.commands.AutoTapAndBalanceCommandGroup;
-import frc.robot.commands.AutoTapAndDriveCommandGroup;
-import frc.robot.commands.AutoTapObjectCommandGroup;
+import frc.robot.commands.AutoFireCubeAndDriveCommandGroup;
+import frc.robot.commands.AutoFireConeAndDriveCommandGroup;
+// import frc.robot.commands.AutoTapAndBalanceCommandGroup;
+// import frc.robot.commands.AutoTapAndDriveCommandGroup;
+// import frc.robot.commands.AutoTapObjectCommandGroup;
 import frc.robot.commands.GrandTheftDriveCommand;
 import frc.robot.commands.HalveDriveSpeedCommand;
 import frc.robot.commands.SetIntakeMotorCommand;
@@ -48,11 +49,14 @@ public class RobotContainer {
   // The autonomous routines
 
   // A simple auto routine that drives forward a specified duration in seconds and then stops.
+
   private final Command m_nothingAuto = new AutoDoNothing();
-  private final Command m_tapAuto = new AutoTapObjectCommandGroup(m_robotDrive);
-  private final Command m_tapAndBalanceAuto = new AutoTapAndBalanceCommandGroup(m_robotDrive);
-  private final Command m_tapAndDriveAuto = new AutoTapAndDriveCommandGroup(m_robotDrive);
-  private final Command m_fireAndDriveAuto = new AutoFireAndDriveCommandGroup(m_robotDrive, m_robotIntake, m_robotArm);
+  private final Command m_fireCubeAndDriveAuto = new AutoFireCubeAndDriveCommandGroup(m_robotDrive, m_robotIntake, m_robotArm);
+  private final Command m_fireConeAndDriveAuto = new AutoFireConeAndDriveCommandGroup(m_robotDrive, m_robotIntake, m_robotArm);
+
+  // private final Command m_tapAuto = new AutoTapObjectCommandGroup(m_robotDrive);
+  // private final Command m_tapAndBalanceAuto = new AutoTapAndBalanceCommandGroup(m_robotDrive);
+  // private final Command m_tapAndDriveAuto = new AutoTapAndDriveCommandGroup(m_robotDrive);
   
   // A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -77,13 +81,14 @@ public class RobotContainer {
 
     // Add commands to the autonomous command chooser
     m_chooser.setDefaultOption("Nothing Auto", m_nothingAuto);
-    m_chooser.setDefaultOption("Tap Auto", m_tapAuto);
-    m_chooser.setDefaultOption("Tap and Balance Auto", m_tapAndBalanceAuto);
-    m_chooser.setDefaultOption("Tap and Drive Auto", m_tapAndDriveAuto);
-    m_chooser.setDefaultOption("Fire and Drive Auto", m_fireAndDriveAuto);
+    m_chooser.addOption("Fire Cube and Drive Auto", m_fireCubeAndDriveAuto);
+    m_chooser.addOption("Fire Cone and Drive Auto", m_fireConeAndDriveAuto);
+    // m_chooser.addOption("Tap Auto", m_tapAuto);
+    // m_chooser.addOption("Tap and Balance Auto", m_tapAndBalanceAuto);
+    // m_chooser.addOption("Tap and Drive Auto", m_tapAndDriveAuto);
 
     // Put the chooser on the SmartDashboard
-    SmartDashboard.putData("Auto Choices", m_chooser);
+    SmartDashboard.putData(m_chooser);
   }
 
   /**

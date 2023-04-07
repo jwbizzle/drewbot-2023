@@ -15,13 +15,13 @@ import frc.robot.subsystems.ArmSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoFireAndDriveCommandGroup extends SequentialCommandGroup {
+public class AutoFireCubeAndDriveCommandGroup extends SequentialCommandGroup {
   private final DriveSubsystem m_drive;
   private final IntakeSubsystem m_intake;
   private final ArmSubsystem m_arm;
 
   /** Creates a new AutoTimeCommandGroup. */
-  public AutoFireAndDriveCommandGroup(DriveSubsystem drive, IntakeSubsystem intake, ArmSubsystem arm) {
+  public AutoFireCubeAndDriveCommandGroup(DriveSubsystem drive, IntakeSubsystem intake, ArmSubsystem arm) {
     m_drive = drive;
     m_intake = intake;
     m_arm = arm;
