@@ -22,6 +22,8 @@ import frc.robot.commands.SetDriveIdleModeCommand;
 import frc.robot.commands.AutoDoNothing;
 import frc.robot.commands.AutoFireCubeAndDriveCommandGroup;
 import frc.robot.commands.AutoFireConeAndDriveCommandGroup;
+import frc.robot.commands.AutoFireCube;
+import frc.robot.commands.AutoFireCone;
 // import frc.robot.commands.AutoTapAndBalanceCommandGroup;
 // import frc.robot.commands.AutoTapAndDriveCommandGroup;
 // import frc.robot.commands.AutoTapObjectCommandGroup;
@@ -53,6 +55,8 @@ public class RobotContainer {
   private final Command m_nothingAuto = new AutoDoNothing();
   private final Command m_fireCubeAndDriveAuto = new AutoFireCubeAndDriveCommandGroup(m_robotDrive, m_robotIntake, m_robotArm);
   private final Command m_fireConeAndDriveAuto = new AutoFireConeAndDriveCommandGroup(m_robotDrive, m_robotIntake, m_robotArm);
+  private final Command m_fireCubeAuto = new AutoFireCube(m_robotIntake, m_robotArm);
+  private final Command m_fireConeAuto = new AutoFireCone(m_robotIntake, m_robotArm);
 
   // private final Command m_tapAuto = new AutoTapObjectCommandGroup(m_robotDrive);
   // private final Command m_tapAndBalanceAuto = new AutoTapAndBalanceCommandGroup(m_robotDrive);
@@ -83,6 +87,8 @@ public class RobotContainer {
     m_chooser.setDefaultOption("Nothing Auto", m_nothingAuto);
     m_chooser.addOption("Fire Cube and Drive Auto", m_fireCubeAndDriveAuto);
     m_chooser.addOption("Fire Cone and Drive Auto", m_fireConeAndDriveAuto);
+    m_chooser.addOption("Fire Cube", m_fireCubeAuto);
+    m_chooser.addOption("Fire Cone ", m_fireConeAuto);
     // m_chooser.addOption("Tap Auto", m_tapAuto);
     // m_chooser.addOption("Tap and Balance Auto", m_tapAndBalanceAuto);
     // m_chooser.addOption("Tap and Drive Auto", m_tapAndDriveAuto);

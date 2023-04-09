@@ -15,23 +15,24 @@ import frc.robot.subsystems.ArmSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoFireCubeAndDriveCommandGroup extends SequentialCommandGroup {
-  private final DriveSubsystem m_drive;
+public class AutoFireCone extends SequentialCommandGroup {
   private final IntakeSubsystem m_intake;
   private final ArmSubsystem m_arm;
 
   /** Creates a new AutoTimeCommandGroup. */
-  public AutoFireCubeAndDriveCommandGroup(DriveSubsystem drive, IntakeSubsystem intake, ArmSubsystem arm) {
-    m_drive = drive;
+  public AutoFireCone(IntakeSubsystem intake, ArmSubsystem arm) {
     m_intake = intake;
     m_arm = arm;
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutoFireCube(m_intake, m_arm), // fire cube
-      new SetDriveSpeedCommand(m_drive, -AutoConstants.kRobotSpeedFast).withTimeout(AutoConstants.kAutoDriveTimeS), // drive back
-      new SetDriveSpeedCommand(m_drive, 0.0) // stop driving
+      new SetArmMotorCommand(m_arm, ArmConstants.kArmOutputPower).withTimeout(AutoConstants.kArmExtendTimeS), // arm up
+      new SetArmMotorCommand(m_arm, 0.0).withTimeout(0.1), // arm stop
+      new SetIntakeMotorCommand(m_intake, 1.0, IntakeConstants.kIntakeOutputCurrentLimitA).withTimeout(AutoConstants.kAutoThrowTimeS), // shoot out cone
+      new SetIntakeMotorCommand(m_intake, 0.0, 0).withTimeout(0.1), // intake stop
+      new SetArmMotorCommand(m_arm, -ArmConstants.kArmOutputPower).withTimeout(AutoConstants.kArmExtendTimeS), // arm down
+      new SetArmMotorCommand(m_arm, 0.0).withTimeout(0.1) // arm stop
     );
   }
 }
