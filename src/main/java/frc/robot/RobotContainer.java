@@ -105,6 +105,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // While the driver is holding the shoulder button, drive at half speed
+
     new JoystickButton(m_driverController, Button.kRightBumper.value)
         .whileTrue(new HalveDriveSpeedCommand(m_robotDrive));
 

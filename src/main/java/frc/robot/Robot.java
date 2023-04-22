@@ -5,10 +5,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.commands.SetIntakeMotorCommand;
+
+import com.kauailabs.navx.frc.AHRS;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -20,6 +25,7 @@ import frc.robot.commands.SetIntakeMotorCommand;
  * project.
  */
 public class Robot extends TimedRobot {
+  private AHRS m_ahrs;
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -31,6 +37,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    
+    m_ahrs = new AHRS(SerialPort.Port.kMXP, AHRS.SerialDataType.kProcessedData, (byte)50);
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
@@ -51,6 +59,26 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    
+    
+    /* Display 6-axis Processed Angle Data */
+    SmartDashboard.putBoolean(  "IMU_Connected",        m_ahrs.isConnected());
+    SmartDashboard.putBoolean(  "IMU_IsCalibrating",    m_ahrs.isCalibrating());
+    SmartDashboard.putNumber(   "IMU_Yaw",              m_ahrs.getYaw());
+    SmartDashboard.putNumber(   "IMU_Pitch",            m_ahrs.getPitch());
+    SmartDashboard.putNumber(   "IMU_Roll",             m_ahrs.getRoll());
+
+    /* These functions are compatible w/the WPI Gyro Class, providing a simple  */
+    /* path for upgrading from the Kit-of-Parts gyro to the navx MXP            */
+    SmartDashboard.putNumber(   "IMU_TotalYaw",         m_ahrs.getAngle());
+    SmartDashboard.putNumber(   "IMU_YawRateDPS",       m_ahrs.getRate());
+
+    /* Display Processed Acceleration Data (Linear Acceleration, Motion Detect) */
+    SmartDashboard.putNumber(   "IMU_Accel_X",          m_ahrs.getWorldLinearAccelX());
+    SmartDashboard.putNumber(   "IMU_Accel_Y",          m_ahrs.getWorldLinearAccelY());
+    SmartDashboard.putBoolean(  "IMU_IsMoving",         m_ahrs.isMoving());
+    SmartDashboard.putBoolean(  "IMU_IsRotating",       m_ahrs.isRotating());
+
     // Runs the Scheduler. This is responsible for polling buttons, adding
     // newly-scheduled
     // commands, running already-scheduled commands, removing finished or
