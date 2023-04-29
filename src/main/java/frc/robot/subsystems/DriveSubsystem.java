@@ -10,10 +10,13 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.SerialPort;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import com.kauailabs.navx.frc.AHRS;
 
 public class DriveSubsystem extends SubsystemBase {
   
@@ -38,9 +41,35 @@ public class DriveSubsystem extends SubsystemBase {
   // Creates a SlewRateLimiter to help smooth driving.  We tried .5 which has a side effect. 
   SlewRateLimiter filter = new SlewRateLimiter(DriveConstants.kSlewRateLimiterRate);
 
+  private AHRS m_ahrs;
+
+  public AHRS getNavx() {
+    return m_ahrs;
+  }
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+
+    m_ahrs = new AHRS(SerialPort.Port.kMXP, AHRS.SerialDataType.kProcessedData, (byte)50);
+    /* smartdashboard navx data, temporary place
+    / Display 6-axis Processed Angle Data /
+    SmartDashboard.putBoolean(  "IMU_Connected",        m_ahrs.isConnected());
+    SmartDashboard.putBoolean(  "IMU_IsCalibrating",    m_ahrs.isCalibrating());
+    SmartDashboard.putNumber(   "IMU_Yaw",              m_ahrs.getYaw());
+    SmartDashboard.putNumber(   "IMU_Pitch",            m_ahrs.getPitch());
+    SmartDashboard.putNumber(   "IMU_Roll",             m_ahrs.getRoll());
+
+    / These functions are compatible w/the WPI Gyro Class, providing a simple  /
+    / path for upgrading from the Kit-of-Parts gyro to the navx MXP            /
+    SmartDashboard.putNumber(   "IMU_TotalYaw",         m_ahrs.getAngle());
+    SmartDashboard.putNumber(   "IMU_YawRateDPS",       m_ahrs.getRate());
+
+    / Display Processed Acceleration Data (Linear Acceleration, Motion Detect) /
+    SmartDashboard.putNumber(   "IMU_Accel_X",          m_ahrs.getWorldLinearAccelX());
+    SmartDashboard.putNumber(   "IMU_Accel_Y",          m_ahrs.getWorldLinearAccelY());
+    SmartDashboard.putBoolean(  "IMU_IsMoving",         m_ahrs.isMoving());
+    SmartDashboard.putBoolean(  "IMU_IsRotating",       m_ahrs.isRotating());
+     */
     
     // In order to get the forward and backward movement to work with
     // the rotation you need to invert one side of the drive train and 
