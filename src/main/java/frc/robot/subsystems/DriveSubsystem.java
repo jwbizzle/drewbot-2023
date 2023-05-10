@@ -53,22 +53,22 @@ public class DriveSubsystem extends SubsystemBase {
     m_ahrs = new AHRS(SerialPort.Port.kMXP, AHRS.SerialDataType.kProcessedData, (byte)50);
     /* smartdashboard navx data, temporary place
     / Display 6-axis Processed Angle Data /
-    SmartDashboard.putBoolean(  "IMU_Connected",        m_ahrs.isConnected());
-    SmartDashboard.putBoolean(  "IMU_IsCalibrating",    m_ahrs.isCalibrating());
-    SmartDashboard.putNumber(   "IMU_Yaw",              m_ahrs.getYaw());
-    SmartDashboard.putNumber(   "IMU_Pitch",            m_ahrs.getPitch());
-    SmartDashboard.putNumber(   "IMU_Roll",             m_ahrs.getRoll());
+    SmartDashboard.putBoolean("IMU_Connected", m_ahrs.isConnected());
+    SmartDashboard.putBoolean("IMU_IsCalibrating", m_ahrs.isCalibrating());
+    SmartDashboard.putNumber("IMU_Yaw", m_ahrs.getYaw());
+    SmartDashboard.putNumber("IMU_Pitch", m_ahrs.getPitch());
+    SmartDashboard.putNumber("IMU_Roll", m_ahrs.getRoll());
 
     / These functions are compatible w/the WPI Gyro Class, providing a simple  /
     / path for upgrading from the Kit-of-Parts gyro to the navx MXP            /
-    SmartDashboard.putNumber(   "IMU_TotalYaw",         m_ahrs.getAngle());
-    SmartDashboard.putNumber(   "IMU_YawRateDPS",       m_ahrs.getRate());
+    SmartDashboard.putNumber("IMU_TotalYaw", m_ahrs.getAngle());
+    SmartDashboard.putNumber("IMU_YawRateDPS", m_ahrs.getRate());
 
     / Display Processed Acceleration Data (Linear Acceleration, Motion Detect) /
-    SmartDashboard.putNumber(   "IMU_Accel_X",          m_ahrs.getWorldLinearAccelX());
-    SmartDashboard.putNumber(   "IMU_Accel_Y",          m_ahrs.getWorldLinearAccelY());
-    SmartDashboard.putBoolean(  "IMU_IsMoving",         m_ahrs.isMoving());
-    SmartDashboard.putBoolean(  "IMU_IsRotating",       m_ahrs.isRotating());
+    SmartDashboard.putNumber("IMU_Accel_X", m_ahrs.getWorldLinearAccelX());
+    SmartDashboard.putNumber("IMU_Accel_Y", m_ahrs.getWorldLinearAccelY());
+    SmartDashboard.putBoolean("IMU_IsMoving", m_ahrs.isMoving());
+    SmartDashboard.putBoolean("IMU_IsRotating", m_ahrs.isRotating());
      */
     
     // In order to get the forward and backward movement to work with
@@ -85,12 +85,11 @@ public class DriveSubsystem extends SubsystemBase {
     m_rightFrontMotor.setIdleMode(idleMode);
     m_rightBackMotor.setIdleMode(idleMode);
 
-    if (DriveConstants.kDriveCurrentLimitA != 0){
-      m_leftFrontMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
-      m_leftBackMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
-      m_rightFrontMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
-      m_rightBackMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
-    }
+    //Set current limit on the motors
+    m_leftFrontMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
+    m_leftBackMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
+    m_rightFrontMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
+    m_rightBackMotor.setSmartCurrentLimit(DriveConstants.kDriveCurrentLimitA);
 
   }
 
@@ -118,7 +117,6 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Drive Forward Power (%)", accleration);
     SmartDashboard.putNumber("Drive Turn Power (%)", steering);
 
-    //m_drive.tankDrive(accleration + steering, accleration - steering);
     if (DriveConstants.kEase){
       accleration = filter.calculate(accleration);
       // steering = filter.calculate(steering);
