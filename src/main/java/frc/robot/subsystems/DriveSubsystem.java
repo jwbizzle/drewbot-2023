@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.SerialPort;
 
@@ -151,6 +152,8 @@ public class DriveSubsystem extends SubsystemBase {
     m_rightBackMotor.setIdleMode(mode);
     SmartDashboard.putBoolean("Is Idle Mode Break:", mode == IdleMode.kBrake);
   }
+
+  public Float getYaw() { return m_ahrs.getYaw(); }
   
   @Override
   public void periodic() {
