@@ -115,8 +115,8 @@ public class DriveSubsystem extends SubsystemBase {
   public void gtaDrive(double accleration, double steering) {    
     // Pass in the left speed first (which is the sum of acceleration and steering) 
     // and then the right speed (which is the difference).  Use the tankDrive method.
-    SmartDashboard.putNumber("Drive Forward Power (%)", accleration);
-    SmartDashboard.putNumber("Drive Turn Power (%)", steering);
+    // SmartDashboard.putNumber("Drive Forward Power (%)", accleration);
+    // SmartDashboard.putNumber("Drive Turn Power (%)", steering);
 
     if (DriveConstants.kEase){
       accleration = filter.calculate(accleration);
@@ -127,8 +127,9 @@ public class DriveSubsystem extends SubsystemBase {
     m_drive.tankDrive(accleration + steering, accleration - steering);
     // m_drive.arcadeDrive(accleration, steering); 
 
-    SmartDashboard.putNumber("Drive Left Power (%)", accleration + steering);
-    SmartDashboard.putNumber("Drive Right Power (%)", accleration - steering);
+    // SmartDashboard.putNumber("Drive Left Power (%)", accleration + steering);
+    // SmartDashboard.putNumber("Drive Right Power (%)", accleration - steering);
+    SmartDashboard.putNumber("Yaw:", m_ahrs.getYaw());
   }
 
   /**
@@ -143,6 +144,11 @@ public class DriveSubsystem extends SubsystemBase {
   public void setSpeed(double speed) {
     m_leftMotors.set(speed);
     m_rightMotors.set(speed);
+  }
+
+  public void setTurn(double turnSpeed) {
+    m_leftMotors.set(turnSpeed);
+    m_rightMotors.set(-turnSpeed);
   }
 
   public void setIdleMode(IdleMode mode) {

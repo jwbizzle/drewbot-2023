@@ -30,7 +30,7 @@ import frc.robot.commands.AutoFireCone;
 import frc.robot.commands.GrandTheftDriveCommand;
 import frc.robot.commands.HalveDriveSpeedCommand;
 import frc.robot.commands.SetIntakeMotorCommand;
-
+import frc.robot.commands.TurnToAngleCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -114,6 +114,10 @@ public class RobotContainer {
         .whileTrue(new SetDriveIdleModeCommand(m_robotDrive, IdleMode.kBrake));
     new JoystickButton(m_driverController, Button.kB.value)
         .whileTrue(new SetDriveIdleModeCommand(m_robotDrive, IdleMode.kCoast));
+
+    // Turn to angle test
+    new JoystickButton(m_driverController, Button.kY.value)
+        .whileTrue(new TurnToAngleCommand(m_robotDrive, 90));
 
     // Intake motor bindings
     new JoystickButton(m_operatorController, Button.kY.value)
